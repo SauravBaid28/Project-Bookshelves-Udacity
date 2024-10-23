@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import BookStatus from "./BookStatus";
+import PropTypes from "prop-types";
 
 const BookItem = ({ handleChange, book }) => {
   const navigate = useNavigate();
@@ -7,7 +8,7 @@ const BookItem = ({ handleChange, book }) => {
   const handleStatus = (status) => {
     let bookDetails = {
       ...book,
-      status: status,
+      shelf: status,
     };
     handleChange(bookDetails, status);
   };
@@ -27,11 +28,18 @@ const BookItem = ({ handleChange, book }) => {
           }}
         >
           {book.imageLinks && (
-            <img src={book.imageLinks.thumbnail} alt={book.title} />
+            <img
+              src={book.imageLinks.thumbnail}
+              alt={book.title}
+              style={{
+                width: 128,
+                height: 192,
+              }}
+            />
           )}
         </div>
         <BookStatus
-          status={book.status}
+          status={book.shelf}
           changeStatus={handleStatus}
         ></BookStatus>
       </div>
@@ -46,6 +54,11 @@ const BookItem = ({ handleChange, book }) => {
       </div>
     </div>
   );
+};
+
+BookItem.propTypes = {
+  book: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
 };
 
 export default BookItem;

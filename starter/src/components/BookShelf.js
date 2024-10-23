@@ -8,11 +8,13 @@ const BookShelf = ({ bookList, category, changeStatus }) => {
   const [book, setBook] = useState([]);
   useEffect(() => {
     setBook([]);
-    bookList.forEach((item) => {
-      if (item.status === category) {
-        setBook((prev) => [...prev, item]);
-      }
-    });
+    if (bookList) {
+      bookList.forEach((item) => {
+        if (item.shelf === category) {
+          setBook((prev) => [...prev, item]);
+        }
+      });
+    }
   }, [bookList]);
 
   const handleChange = (bookDetails, status) => {
@@ -33,6 +35,8 @@ const BookShelf = ({ bookList, category, changeStatus }) => {
 
 BookShelf.propTypes = {
   category: PropTypes.string.isRequired,
+  bookList: PropTypes.array.isRequired,
+  changeStatus: PropTypes.func.isRequired,
 };
 
 export default BookShelf;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { search } from "../BooksAPI";
 import BookList from "./BookList";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 const SearchBook = ({ bookList, handleStatus }) => {
   const [query, setQuery] = useState("");
@@ -15,8 +16,7 @@ const SearchBook = ({ bookList, handleStatus }) => {
         });
         return {
           ...book,
-          status:
-            exisitingBook !== undefined ? exisitingBook.status : undefined,
+          shelf: exisitingBook !== undefined ? exisitingBook.shelf : undefined,
         };
       });
       setResults(cleanedData);
@@ -84,6 +84,11 @@ const SearchBook = ({ bookList, handleStatus }) => {
       </div>
     </div>
   );
+};
+
+SearchBook.propTypes = {
+  bookList: PropTypes.array.isRequired,
+  handleStatus: PropTypes.func.isRequired,
 };
 
 export default SearchBook;

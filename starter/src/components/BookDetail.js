@@ -20,11 +20,11 @@ const BookDetail = () => {
 
   return (
     <div>
-      {Object.keys(book).length > 0 && (
-        <div>
-          <div className="list-books-title">
-            <h1>MyReads</h1>
-          </div>
+      <div>
+        <div className="list-books-title">
+          <h1>MyReads</h1>
+        </div>
+        {Object.keys(book).length > 0 && (
           <div className="book-details">
             <Link className="close-search" to="/">
               Close
@@ -76,8 +76,8 @@ const BookDetail = () => {
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

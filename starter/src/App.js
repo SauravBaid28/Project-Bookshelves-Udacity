@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Link } from "react-router-dom";
 import Main from "./components/main";
 import SearchBook from "./components/SearchBook";
 import BookDetail from "./components/BookDetail";
+import { getAll, update } from "./BooksAPI";
+import PageNotFound from "./components/PageNotFound";
 
 export const bookCategory = {
   currentlyReading: "Currently Reading",
@@ -12,25 +14,30 @@ export const bookCategory = {
 };
 
 function App() {
-  const [bookList, setBookList] = useState(() => {
-    const savedData = localStorage.getItem("bookList");
-    return savedData ? JSON.parse(savedData) : [];
-  });
+  const [bookList, setBookList] = useState();
 
   const handleChangeStatus = (bookDetails, status) => {
     let book = bookList.find((book) => book.title === bookDetails.title);
     if (book) {
-      book.status = status;
+      book.shelf = status;
     } else {
       bookList.push(bookDetails);
     }
+    updateBookStatus(bookDetails, status);
     setBookList([...bookList]);
   };
 
   useEffect(() => {
-    // Save data to localStorage whenever it changes
-    localStorage.setItem("bookList", JSON.stringify(bookList));
-  }, [bookList]);
+    const getAllBooks = async () => {
+      const books = await getAll();
+      setBookList([...books]);
+    };
+    getAllBooks();
+  }, []);
+
+  const updateBookStatus = async (bookDetails, status) => {
+    await update(bookDetails, status);
+  };
 
   return (
     <Routes>
@@ -48,6 +55,7 @@ function App() {
         }
       />
       <Route exact path="/book/:id" element={<BookDetail />} />
+      <Route path="*" element={<PageNotFound />} />
     </Routes>
   );
 }

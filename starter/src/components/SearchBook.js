@@ -87,7 +87,7 @@ const SearchBook = ({ bookList, handleStatus }) => {
 };
 
 SearchBook.propTypes = {
-  bookList: PropTypes.array.isRequired,
+  bookList: PropTypes.array,
   handleStatus: PropTypes.func.isRequired,
 };
 
